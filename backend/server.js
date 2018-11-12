@@ -2,6 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
+import graphqlHTTP from 'express-graphql';
+import { makeExecutableSchema } from 'graphql-tools';
 
 import User from './Models/user';
 import Sports from './Models/sports';
@@ -9,49 +11,8 @@ import News from './Models/news';
 import Team from './Models/team';
 import Challenges from './Models/challenges';
 
-var express_graphql = require('express-graphql');
-var {buildSchema} = require('graphql');
-
-// GraphQL Schema
-var schema = buildSchema(`
-    type Query {
-        persona(id: Int!): Persona
-        personas(provincia: String!): [Persona]
-    }
-
-    type Mutation{
-        updatePersonData(id: Int!, provincia: String!): Persona
-    }
-
-    type Persona {
-        id: Int
-        nombre: String
-        apellido: String
-        edad: Int
-        provincia: String
-    }
-`);
-
-
-const app = express();
-const router = express.Router();
-
-app.use(cors());
-app.use(bodyParser.json());
-
-var root = {
-    // Funciones a definir para la mécanica del servidor.
-    persona: getPersona,
-    personas: getPersonas,
-    updatePersonData: updatePersonData
-};
-
-// Creating an express server and a GraphQL endpoint
-app.use('/graphql', express_graphql({
-    schema: schema,
-    rootValue: root,
-    graphiql: true
-}));
+import typeDefs from './schema';
+import resolvers from './resolvers';
 
 mongoose.connect('mongodb://localhost:27017/users');
 
@@ -61,14 +22,28 @@ connection.once('open', () => {
     console.log('MongoDB database connection established successfully!');
 });
 
-var getPersona = function(args){
-}
+const app = express();
+const router = express.Router();
 
-var getPersonas = function(args){  
-}
+app.use(cors());
+app.use(bodyParser.json());
 
-var updatePersonData = function({id, provincia}){
-}
+
+const schema = makeExecutableSchema({
+    typeDefs, //Como van a lucir mis datos.
+    resolvers // Métodos a usar 
+})
+
+// Creating an express server and a GraphQL endpoint
+
+app.use('/graphql', express.json(), graphqlHTTP({
+    schema: schema,
+    context: {
+        News
+    },
+    graphiql: true
+}));
+
 
 //----------------------------------------------- End-points -----------------------------------------------------------
 
