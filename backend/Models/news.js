@@ -3,11 +3,12 @@ import mongoose from 'mongoose';
 const Schema = mongoose.Schema;
 
 let News = new Schema({
+    id: String,
     Title: {
         type: String
     },
     Tag: {
-        type: String
+        type: [String]
     },
     Description: {
         type: String
