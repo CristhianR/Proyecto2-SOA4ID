@@ -1,7 +1,4 @@
 import 'babel-polyfill';
-import News from './Models/news';
-import User from './Models/user';
-import { rejects } from 'assert';
 
 const dbConnection = require('./dbConnection');
 
@@ -210,7 +207,6 @@ export default {
                 });
             });
         },
-
         insertTeam: async (parent, args, {User}) => {
             return new Promise((resolve, rejects) => {
                 dbConnection().query(
@@ -258,7 +254,6 @@ export default {
                 });
             });
         },
-
         insertReto: async (parent, args, {User}) => {
             return new Promise((resolve, rejects) => {
                 dbConnection().query(

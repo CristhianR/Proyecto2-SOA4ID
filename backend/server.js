@@ -6,10 +6,7 @@ import graphqlHTTP from 'express-graphql';
 import { makeExecutableSchema } from 'graphql-tools';
 
 import User from './Models/user';
-import Sports from './Models/sports';
 import News from './Models/news';
-import Team from './Models/team';
-import Challenges from './Models/challenges';
 
 import typeDefs from './schema';
 import resolvers from './resolvers';
