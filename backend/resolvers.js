@@ -66,6 +66,52 @@ export default {
                     } 
                 });
             });
+        },
+        allRetos: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                dbConnection().query('SELECT * FROM reto', (err,res) => {
+                    if(err){
+                        rejects(err);
+                    }else{
+                        resolve(res);
+                    } 
+                });
+            });
+        },
+        oneReto: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                dbConnection().query('SELECT * FROM equipos WHERE id_reto = ' + args.id_reto, (err,res) => {
+                    if(err){
+                        rejects(err);
+                    }else{
+                        console.log(res);
+                        resolve(res);
+                    } 
+                });
+            });
+        },
+        allSports: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                dbConnection().query('SELECT * FROM deportes', (err,res) => {
+                    if(err){
+                        rejects(err);
+                    }else{
+                        resolve(res);
+                    } 
+                });
+            });
+        },
+        oneSport: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                dbConnection().query('SELECT * FROM deportes WHERE id_deporte = ' + args.id_deporte, (err,res) => {
+                    if(err){
+                        rejects(err);
+                    }else{
+                        console.log(res);
+                        resolve(res);
+                    } 
+                });
+            });
         }
     },
     Mutation: {
@@ -202,6 +248,100 @@ export default {
             return new Promise((resolve, rejects) => {
                 dbConnection().query(
                     'DELETE FROM equipos WHERE id_equipo=' + args.id_equipo, (err,res) => {
+                    if(err){
+                        console.log(err);
+                        rejects(err);
+                    }else{
+                        console.log(res);
+                        resolve(res);
+                    } 
+                });
+            });
+        },
+
+        insertReto: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                dbConnection().query(
+                    'INSERT INTO reto(id_reto, lugar, fecha) VALUES(' + args.id_reto + ',' + '"' + args.lugar + '"' + ','
+                    + '"' + args.fecha + '"' + ')', (err,res) => {
+                    if(err){
+                        console.log(err);
+                        rejects(err);
+                    }else{
+                        console.log(res);
+                        resolve(res);
+                    } 
+                });
+            });
+        },
+        updateReto: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                if(args.lugar != null && args.fecha != null){
+                    dbConnection().query(
+                        'UPDATE reto SET lugar = ' + '"' + args.lugar + '"' + ',' + 
+                         'fecha = ' + '"' + args.fecha + '"' +
+                        'WHERE id_reto = ' + args.id_reto, (err,res) => {
+                        if(err){
+                            console.log(err);
+                            rejects(err);
+                        }else{
+                            console.log(res);
+                            resolve(res);
+                        } 
+                    });
+                }
+            });
+        },
+        deleteReto: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                dbConnection().query(
+                    'DELETE FROM reto WHERE id_reto=' + args.id_reto, (err,res) => {
+                    if(err){
+                        console.log(err);
+                        rejects(err);
+                    }else{
+                        console.log(res);
+                        resolve(res);
+                    } 
+                });
+            });
+        },
+        insertSport: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                dbConnection().query(
+                    'INSERT INTO deportes(id_deporte, nombre_deporte) VALUES(' + args.id_deporte + ','
+                     + '"' + args.nombre_deporte + '"' + ')', (err,res) => {
+                    if(err){
+                        console.log(err);
+                        rejects(err);
+                    }else{
+                        console.log(res);
+                        resolve(res);
+                    } 
+                });
+            });
+        },
+        updateSport: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                if(args.nombre_deporte != null){
+                    dbConnection().query(
+                        'UPDATE deportes SET nombre_deporte = ' + '"' + args.nombre_deporte + '"' +
+                        'WHERE id_deporte = ' + args.id_deporte, (err,res) => {
+                        if(err){
+                            console.log(err);
+                            rejects(err);
+                        }else{
+                            console.log(res);
+                            resolve(res);
+                        } 
+                    });
+                }
+            });
+        },
+        deleteSport: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                dbConnection().query(
+                    'DELETE FROM deportes WHERE id_deporte=' + args.id_deporte, (err,res) => {
                     if(err){
                         console.log(err);
                         rejects(err);

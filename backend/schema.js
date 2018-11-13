@@ -21,6 +21,17 @@ export default // GraphQL Schema
         logros:Int
     }
 
+    type Reto{
+        id_reto: Int
+        lugar: String
+        fecha: String
+    }
+
+    type Sport{
+        id_deporte: Int
+        nombre_deporte: String
+    }
+
     type Query {
         allNews: [News!]!
         oneNews(id: String!): News!
@@ -30,6 +41,12 @@ export default // GraphQL Schema
 
         allTeams: [Team!]!
         oneTeam(id_equipo: Int!): [Team!]!
+
+        allRetos: [Reto!]!
+        oneReto(id_reto: Int!): [Reto!]!
+
+        allSports: [Sport!]!
+        oneSport(id_deporte: Int!): [Sport!]!
     }
 
     type Mutation{
@@ -44,6 +61,14 @@ export default // GraphQL Schema
         insertTeam(id_equipo: Int!, nombre_equipo: String!, logros: Int): Team!
         updateTeam(id_equipo: Int!, nombre_equipo: String!, logros: Int): Team!
         deleteTeam(id_equipo: Int!): Team!
+
+        insertReto(id_reto: Int!, lugar: String!, fecha: String!): Reto!
+        updateReto(id_reto: Int!, lugar: String!, fecha: String!): Reto!
+        deleteReto(id_reto: Int!): Reto!
+
+        insertSport(id_deporte: Int!, nombre_deporte: String!): Sport!
+        updateSport(id_deporte: Int!, nombre_deporte: String!): Sport!
+        deleteSport(id_deporte: Int!): Sport!
     }
 
 `;
