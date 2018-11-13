@@ -1,4 +1,5 @@
 import 'babel-polyfill';
+import news from './Models/news';
 
 export default {
     Query: {
@@ -9,6 +10,11 @@ export default {
                 console.log(x);
                 return x;
             })
+        },
+        oneNews: async (parent, args, {News}) => {
+            const news = await News.findById(args.id);
+            news.id = args.id;
+            return news;
         }
     },
     Mutation: {
@@ -39,6 +45,23 @@ export default {
                     news.save();
                     console.log(news);
                     return news;
+                }
+            });
+        },
+        deleteNews: async (parent, args, {News}) => {
+            return await News.findById({_id: args.id}, (err, news) => {
+                if(err){
+                    return err
+                }else{
+                     News.findByIdAndRemove({_id: args.id}, (err, xxx) => {
+                        if(err){
+                            return err;
+                        }else{
+                            news.id = args.id;
+                            console.log(news);
+                            return news;
+                        }
+                    });
                 }
             });
         }
