@@ -39,7 +39,8 @@ const schema = makeExecutableSchema({
 app.use('/graphql', express.json(), graphqlHTTP({
     schema: schema,
     context: {
-        News
+        News,
+        User
     },
     graphiql: true
 }));

@@ -1,5 +1,9 @@
 import 'babel-polyfill';
-import news from './Models/news';
+import News from './Models/news';
+import User from './Models/user';
+import { rejects } from 'assert';
+
+const dbConnection = require('./dbConnection');
 
 export default {
     Query: {
@@ -15,6 +19,30 @@ export default {
             const news = await News.findById(args.id);
             news.id = args.id;
             return news;
+        },
+        allUsers: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                dbConnection().query('SELECT * FROM usuarios', (err,res) => {
+                    if(err){
+                        rejects(err);
+                    }else{
+                        resolve(res);
+                    } 
+                });
+            });
+        },
+        oneUser: async (parent, args, {User}) => {
+            console.log(args.id_usuario);
+            return new Promise((resolve, rejects) => {
+                dbConnection().query('SELECT * FROM usuarios WHERE id_usuario = ' + args.id_usuario, (err,res) => {
+                    if(err){
+                        rejects(err);
+                    }else{
+                        console.log(res);
+                        resolve(res);
+                    } 
+                });
+            });
         }
     },
     Mutation: {

@@ -10,6 +10,8 @@ create table if not exists usuarios(
     primary key(id_usuario)
 )engine=INNODB;
 
+ALTER TABLE usuarios AUTO_INCREMENT=1001;
+
 create table if not exists equipos(
 	id_equipo int not null auto_increment,
     nombre_equipo varchar(50) not null,
@@ -49,6 +51,9 @@ create table if not exists restos_equipos(
 )engine=INNODB;
 
 
+insert into usuarios(id_usuario,nombre, apellido, correo) values(1,"Juan", "Vega","algo@gmail.com");
+
+select * from usuarios;
 
 
 

@@ -7,9 +7,19 @@ export default // GraphQL Schema
         Description: String!
     }
 
+    type User{
+        _id: String
+        id_usuario: Int
+        nombre: String
+        apellido: String
+        correo: String
+    }
+
     type Query {
         allNews: [News!]!
         oneNews(id: String!): News!
+        allUsers: [User!]!
+        oneUser(id_usuario: Int!): [User!]!
     }
 
     type Mutation{
