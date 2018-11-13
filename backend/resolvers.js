@@ -43,6 +43,29 @@ export default {
                     } 
                 });
             });
+        },
+        allTeams: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                dbConnection().query('SELECT * FROM equipos', (err,res) => {
+                    if(err){
+                        rejects(err);
+                    }else{
+                        resolve(res);
+                    } 
+                });
+            });
+        },
+        oneTeam: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                dbConnection().query('SELECT * FROM equipos WHERE id_equipo = ' + args.id_equipo, (err,res) => {
+                    if(err){
+                        rejects(err);
+                    }else{
+                        console.log(res);
+                        resolve(res);
+                    } 
+                });
+            });
         }
     },
     Mutation: {
@@ -91,6 +114,102 @@ export default {
                         }
                     });
                 }
+            });
+        },
+
+        insertUser: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                dbConnection().query(
+                    'INSERT INTO usuarios(id_usuario, nombre, apellido, correo) VALUES(' + args.id_usuario + ',' + '"' + args.nombre + '"' + ','
+                    + '"' + args.apellido + '"' + ',' + '"' +  args.correo + '"' +')', (err,res) => {
+                    if(err){
+                        console.log(err);
+                        rejects(err);
+                    }else{
+                        console.log(res);
+                        resolve(res);
+                    } 
+                });
+            });
+        },
+        updateUser: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                if(args.nombre != null && args.apellido != null && args.correo != null){
+                    dbConnection().query(
+                        'UPDATE usuarios SET nombre = ' + '"' + args.nombre + '"' + ',' + 
+                         'apellido = ' + '"' + args.apellido + '"' + ',' + 'correo = ' + '"' + args.correo + '"' +
+                        'WHERE id_usuario = ' + args.id_usuario, (err,res) => {
+                        if(err){
+                            console.log(err);
+                            rejects(err);
+                        }else{
+                            console.log(res);
+                            resolve(res);
+                        } 
+                    });
+                }
+            });
+        },
+        deleteUser: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                dbConnection().query(
+                    'DELETE FROM usuarios WHERE id_usuario=' + args.id_usuario, (err,res) => {
+                    if(err){
+                        console.log(err);
+                        rejects(err);
+                    }else{
+                        console.log(res);
+                        resolve(res);
+                    } 
+                });
+            });
+        },
+
+        insertTeam: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                dbConnection().query(
+                    'INSERT INTO equipos(id_equipo, nombre_equipo, logros) VALUES(' + args.id_equipo + ',' + '"' + args.nombre_equipo + '"' + ','
+                    + '"' + args.logros + '"' + ')', (err,res) => {
+                    if(err){
+                        console.log(err);
+                        rejects(err);
+                    }else{
+                        console.log(res);
+                        resolve(res);
+                    } 
+                });
+            });
+        },
+        updateTeam: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                if(args.nombre_equipo != null && args.logros != null){
+                    dbConnection().query(
+                        'UPDATE equipos SET nombre_equipo = ' + '"' + args.nombre_equipo + '"' + ',' + 
+                         'logros = ' + '"' + args.logros + '"' +
+                        'WHERE id_equipo = ' + args.id_equipo, (err,res) => {
+                        if(err){
+                            console.log(err);
+                            rejects(err);
+                        }else{
+                            console.log(res);
+                            resolve(res);
+                        } 
+                    });
+                }
+            });
+        },
+        deleteTeam: async (parent, args, {User}) => {
+            return new Promise((resolve, rejects) => {
+                dbConnection().query(
+                    'DELETE FROM equipos WHERE id_equipo=' + args.id_equipo, (err,res) => {
+                    if(err){
+                        console.log(err);
+                        rejects(err);
+                    }else{
+                        console.log(res);
+                        resolve(res);
+                    } 
+                });
             });
         }
     }
